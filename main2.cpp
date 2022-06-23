@@ -71,8 +71,8 @@ Casa::Casa()
     this->mesas = new Mesa[this->K];
     for(int i = 0; i < this->K; i++)
     {
-        std::cin >> this->mesas[i].largura;
         std::cin >> this->mesas[i].comprimento;
+        std::cin >> this->mesas[i].largura;
     }
 
     this->retangulos = new int[this->N+1];
@@ -152,6 +152,15 @@ bool operator>(Mesa mesa1, Mesa mesa2)
     return 0;
 }
 
+bool operator==(Mesa mesa1, Mesa mesa2)
+{
+    if(mesa1.comprimento * mesa1.largura == mesa2.comprimento * mesa2.largura)
+    {
+        return 1;
+    }
+    return 0;
+}
+
 void Casa::verifica_mesas()
 {
     Mesa maior_mesa;
@@ -164,6 +173,10 @@ void Casa::verifica_mesas()
             if(this->retangulos[this->mesas[i].comprimento] >= this->mesas[i].largura)
             {
                 maior_mesa = (this->mesas[i] > maior_mesa) ? this->mesas[i] : maior_mesa;
+                if(maior_mesa == this->mesas[i])
+                {
+                    maior_mesa = (this->mesas[i].largura > maior_mesa.largura) ? this->mesas[i] : maior_mesa;
+                }
             }
         }
         if(this->mesas[i].largura <= this->N)
@@ -171,10 +184,14 @@ void Casa::verifica_mesas()
             if(this->retangulos[this->mesas[i].largura] >= this->mesas[i].comprimento)
             {
                 maior_mesa = (this->mesas[i] > maior_mesa) ? this->mesas[i] : maior_mesa;
+                if(maior_mesa == this->mesas[i])
+                {
+                    maior_mesa = (this->mesas[i].largura > maior_mesa.largura) ? this->mesas[i] : maior_mesa;
+                }
             }
         }
     }
-    std::cout << maior_mesa.largura << " " << maior_mesa.comprimento;
+    std::cout << maior_mesa.comprimento << " " << maior_mesa.largura;
 }
 
 void Casa::imprimir()
